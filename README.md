@@ -1,48 +1,136 @@
-# Omnigo Admin — Dashboard 
 
-Admin panel for the food delivery platform, built with the agreed stack.
+# Omnigo Admin Portal
 
-## Stack
+## 1️⃣ Project Overview
+Omnigo Admin is an enterprise management dashboard enabling system operators to manage merchant onboarding, control commission structures, monitor dynamic platform revenue, and process real-time seller approvals for both commercial restaurants and local home chefs.
 
-React (Vite) · Tailwind CSS · shadcn-style UI (CVA + Radix conventions) · React Router
-TanStack Query · TanStack Table · React Hook Form + Zod · Socket.io Client · Axios · Recharts
+---
 
-## What's done (Step 1)
+## 2️⃣ Features
+* **Universal Merchant Management:** Dialog-driven CRUD operations supporting both standard Restaurants and Home Chefs (`belongsTo`).
+* **Complex Category Builder:** Custom string parser allowing bulk category and subcategory creation (e.g., `Category: Sub1, Sub2 | Category2`).
+* **Commission Control:** Configure merchant-specific platform commission rates, delivery minimums, and service fees.
+* **Interactive Dialog Systems:** Form handling built on Radix UI and Shadcn UI primitives powered by Zod schema validations.
+* **Status Workflows:** One-click approval pipelines transitioning vendors between `pending`, `approved`, and `blocked` states.
 
-- Vite + React project, Tailwind CSS v4 configured with a brand token system (coral / navy / gold).
-- App shell: collapsible **Sidebar**, **Header** (search, notifications, avatar), responsive layout with routing via React Router.
-- **Dashboard** — 8 KPI cards, 30-day revenue area chart (Recharts), recent orders feed. All wired to TanStack Query hooks.
-- **Orders** — full TanStack Table with status-filter pills, search, pagination, status badges, loading/empty states.
-- **Riders, Restaurants, Customers** — scaffolded placeholder pages previewing what each module will contain.
-- **Chat** — conversation-type list + a working `socket.io-client` connection hook (connects to `VITE_SOCKET_URL`; shows real connection status once a socket server exists).
-- **Settings** — live form example using React Hook Form + Zod validation.
-- API layer (`src/api/*`) returns mock data today but is already shaped like real endpoint responses — swap the body of each function for an `axiosClient` call once the backend exists, no UI changes needed.
+---
 
-## Run it
+## 3️⃣ Tech Stack
+* **React.js / Next.js:** Core web framework for dashboard rendering.
+* **React Hook Form & Zod:** Type-safe form orchestration and schema-based input validations.
+* **Shadcn UI & Tailwind CSS:** Accessible component architecture built on top of Radix UI primitives.
+* **Lucide React:** Iconography system.
 
-```bash
+---
+
+## 4️⃣ Architecture
+┌──────────────────────────────────────────────────┐
+│                   Omnigo Admin                   │
+│  ┌──────────────────┐      ┌──────────────────┐  │
+│  │ React Hook Form  │ ◄──► │  Zod Resolvers   │  │
+│  └────────┬─────────┘      └──────────────────┘  │
+└───────────┼──────────────────────────────────────┘
+│ Validated HTTP Payload
+▼
+┌──────────────────────────────────────────────────┐
+│                Omnigo Backend API                │
+└──────────────────────────────────────────────────┘
+
+---
+
+## 5️⃣ Project Structure
+```text
+omnigo-admin/
+├── src/
+│   ├── components/
+│   │   ├── ui/           # Radix/Shadcn primitives (Dialog, Button, Input)
+│   │   └── dialogs/      # Complex forms (e.g., RestaurantFormDialog.jsx)
+│   ├── hooks/            # Custom React hooks
+│   ├── lib/              # Utility classes and Tailwind merge configs
+│   ├── pages/            # Next.js route handlers and dashboard layouts
+│   └── services/         # Admin API service wrappers
+├── public/               # Static dashboard assets
+└── package.json
+```
+
+---
+
+## 6️⃣ Installation & Setup
+**Prerequisites**
+Node.js >= 18.x
+
+**Environment Variables**
+Create a .env.local file:
+
+**Code snippet**
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+Commands
+Bash
+
+# Install dependencies
 npm install
-cp .env.example .env   # optional, defaults work with mock data
+
+# Run dashboard in dev mode
 npm run dev
-```
+Navigate to http://localhost:3000.
 
-## Project structure
+---
 
-```
-src/
-  api/            mock + future-real API functions (dashboard.js, orders.js, axiosClient.js)
-  components/
-    layout/        Sidebar, Header, AppLayout, PlaceholderPage
-    dashboard/      StatCard
-    orders/         OrderStatusBadge
-    ui/             button, card, badge, input, avatar, table, skeleton (shadcn-style primitives)
-  hooks/          useDashboard.js, useOrders.js, useSocket.js (TanStack Query + socket.io wrappers)
-  pages/          DashboardPage, OrdersPage, RidersPage, RestaurantsPage, CustomersPage, ChatPage, SettingsPage
-```
+## 7️⃣ Usage
+Open the Vendors section in the Admin Dashboard.
 
-## Next steps
+Click Add Restaurant or Add Home Chef.
 
-1. Stand up the real backend and point `VITE_API_URL` at it; replace mock bodies in `src/api/*` with the commented `axiosClient` calls.
-2. Build out Riders / Restaurants / Customers with the same table + form pattern used in Orders / Settings.
-3. Wire a real Socket.io server for Chat and Live Tracking.
-4. Add Finance, Live Tracking, Promotions, Notifications modules (Phase 2 per the roadmap).
+Fill out profile data, operational hours, and set commission rates.
+
+Enter categories in the fast-string format: Main Category: Sub1, Sub2 | Second Category: Sub3.
+
+Submit form to update backend record state immediately.
+
+---
+
+## 8️⃣ Screenshots / Demo
+(Include screenshots of Vendor Table, Restaurant Form Dialog, and Analytics Overview)
+
+---
+
+## 9️⃣ API Documentation Integration
+Key Frontend Form Mappings
+RestaurantFormDialog serializes dialog state into backend-ready JSON payloads:
+
+**JSON**
+{
+  "name": "Spice Route",
+  "belongsTo": "restaurant",
+  "categories": [
+    {
+      "categoryName": "Pizza",
+      "subCategories": ["BBQ", "Pepperoni"]
+    }
+  ],
+  "commissionRate": 15
+}
+
+---
+
+## 🔟 Engineering Decisions
+**Pipe-Delimited Fast Category Parsing**: Instead of complex multi-step nested array forms, a simple custom string syntax parser converts text inputs straight into Mongoose-compatible subdocument schemas seamlessly.
+
+**Controlled Form Sync**: Integrated useEffect reset cycles with React Hook Form to dynamically refresh form states when switching between edit targets or modal openings.
+
+---
+
+## 1️⃣1️⃣ Testing
+**Tools**: Cypress (E2E) + React Testing Library.
+
+**Command**:
+
+**Bash**
+npm run test
+
+---
+
+## 1️⃣2️⃣ Limitations & Future Improvements
+**Current Limitation**: Bulk CSV upload operations for multi-item menus are currently in development.
+
+**Planned Improvements**: Live financial chart dashboards analyzing platform commission earnings per region.
