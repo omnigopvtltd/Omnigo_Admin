@@ -1,4 +1,4 @@
-# FoodFleet Admin — Dashboard Scaffold
+# Omnigo Admin — Dashboard 
 
 Admin panel for the food delivery platform, built with the agreed stack.
 
