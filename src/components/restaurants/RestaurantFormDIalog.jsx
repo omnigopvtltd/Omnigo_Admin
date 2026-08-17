@@ -721,7 +721,7 @@ export function RestaurantFormDialog({
               {/* Media URLs */}
               <div>
                 <Label>Logo URL</Label>
-                <Input {...register("logo")} className="w-full" placeholder="https://…" />
+                <Input {...register("logo")} type="file" className="w-full" placeholder="https://…" />
                 {errors.logo && (
                   <p className="mt-1 text-xs text-destructive">{errors.logo.message}</p>
                 )}

@@ -15,6 +15,7 @@ import PromotionsPage from "./pages/PromotionsPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import CategoryPage from "./pages/CategoryPage";
+import ZonePage from "./pages/ZonePage";
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/finance" element={<FinancePage />} />
         <Route path="/live-tracking" element={<LiveTrackingPage />} />
         <Route path="/promotions" element={<PromotionsPage />} />
+        <Route path="/zone" element={<ZonePage />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/notifications" element={<NotificationsPage />} />

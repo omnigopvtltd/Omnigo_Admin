@@ -12,13 +12,14 @@ export const axiosClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
   timeout: 15000,
 });
+// baseURL: import.meta.env.VITE_API_URL || "https://omnigo-app-backend-production.up.railway.app/api",
 
 console.log(import.meta.env.VITE_API_URL);
 
 
 axiosClient.interceptors.request.use((config) => {
   // const token = localStorage.getItem("auth_token");
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhNTBmOTAzODNjYmY4M2JiYWMyYjVmMiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4NjA4Nzc5MSwiZXhwIjoxNzg2NjkyNTkxfQ.9QWZoHICwnHE5XbMr4zlvEdTnVyVmLQd26rsv48ogoI";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhN2I1NzRlNWNmNGM1YTZiYmExYTk4MiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc4Njc5NDE1OCwiZXhwIjoxNzg3Mzk4OTU4fQ.TUXU5t6lStYtwnSKAzEEM7iCcbD6eTgYgAu8whuzyp4";
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

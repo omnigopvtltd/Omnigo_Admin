@@ -67,7 +67,7 @@ export async function getOrCreateConversation({
  */
 export async function sendMessage(
   conversationId,
-  { text, attachments = [], senderRole = "admin", senderId },
+  { text, attachments = [], senderRole = "admin", senderId = "6a7b574e5cf4c5a6bba1a982"},
 ) {
   console.log(text, attachments, senderRole, senderId);
   try {

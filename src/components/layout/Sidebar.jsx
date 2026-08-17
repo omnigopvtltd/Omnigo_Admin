@@ -92,6 +92,7 @@ import {
   MapPin,
   Receipt,
   ForkKnifeCrossed,
+  LocationEdit,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -108,6 +109,7 @@ const NAV_ITEMS = [
   { to: "/finance", label: "Finance", icon: Receipt },
   { to: "/live-tracking", label: "Live Tracking", icon: MapPin },
   { to: "/promotions", label: "Promotions", icon: Megaphone },
+  { to: "/zone", label: "Zones", icon: LocationEdit },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
