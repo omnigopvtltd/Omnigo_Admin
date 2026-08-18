@@ -72,7 +72,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getRiders, getRiderById, createRider, updateRider, updateRiderBlockStatus, deleteRider,
-  reviewCnicVerification, reviewFaceVerification, getRiderWallet, adjustRiderWallet,
+  reviewCnicVerification, reviewFaceVerification, getRiderWallet, adjustRiderWallet, deductBikeInstallment,
 } from "@/api/riders";
 
 export function useRiders(filters = {}) {
@@ -154,6 +154,24 @@ export function useAdjustRiderWallet() {
     onSuccess: (_, vars) => {
       queryClient.invalidateQueries({ queryKey: ["riders"] });
       queryClient.invalidateQueries({ queryKey: ["riders", vars.id, "wallet"] });
+    },
+  });
+}
+
+export function useDeductBikeInstallment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deductBikeInstallment,
+    onSuccess: (data) => {
+      alert(data?.message || "Installment deducted successfully!");
+      // Refresh riders list to reflect updated wallet balance
+      queryClient.invalidateQueries({ queryKey: ["riders"] });
+    },
+    onError: (error) => {
+      alert(
+        error.response?.data?.message || "Failed to deduct bike installment."
+      );
     },
   });
 }

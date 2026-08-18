@@ -1080,6 +1080,7 @@ import {
   ChevronRight,
   Users,
   Gift,
+  DollarSign, 
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -1100,6 +1101,8 @@ import { RiderFormDialog } from "@/components/riders/RiderFormDialog";
 import { RiderDetailDialog } from "@/components/riders/RiderDetailDialog";
 import { SessionFormDialog } from "@/components/riders/SessionFormDialog";
 import { SessionParticipantsDialog } from "@/components/riders/SessionParticipantsDialog";
+import { BikeInstallmentDeductionDialog } from "@/components/riders/BikeInstallmentDeductionDialog";
+import { useDeductBikeInstallment } from "@/hooks/useRiders";
 import {
   useRiders,
   useCreateRider,
@@ -1113,6 +1116,7 @@ import {
   useUpdateSession,
   useDeleteSession,
 } from "@/hooks/useRiderSessions";
+
 
 const CURRENCY = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -1641,6 +1645,139 @@ function SessionsTab() {
   );
 }
 
+function BikeInstallmentsTab() {
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [selectedRider, setSelectedRider] = useState(null);
+
+  const { data, isLoading, isFetching } = useRiders({ search, page, limit: 8 });
+  const riders = data?.riders ?? [];
+
+  const deductMutation = useDeductBikeInstallment();
+
+  const handleDeduct = () => {
+    if (!selectedRider) return;
+    deductMutation.mutate(selectedRider._id, {
+      onSuccess: () => setSelectedRider(null),
+    });
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative w-full sm:w-64">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Search riders for installment…"
+            className="pl-9"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
+      </div>
+
+      <Card>
+        <CardContent className="p-0">
+          {isLoading ? (
+            <div className="space-y-3 p-5">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className="h-12 w-full" />
+              ))}
+            </div>
+          ) : riders.length === 0 ? (
+            <p className="py-16 text-center text-sm text-muted-foreground">
+              No riders found.
+            </p>
+          ) : (
+            <>
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead>Rider</TableHead>
+                    <TableHead>Phone</TableHead>
+                    <TableHead>Vehicle Model</TableHead>
+                    <TableHead>Current Wallet Balance</TableHead>
+                    <TableHead className="text-right">Action</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody
+                  className={isFetching ? "opacity-60 transition-opacity" : ""}
+                >
+                  {riders.map((r) => (
+                    <TableRow key={r._id}>
+                      <TableCell>
+                        <p className="font-medium text-foreground">{r.name}</p>
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {r.phone}
+                      </TableCell>
+                      <TableCell className="text-sm text-muted-foreground">
+                        {r.riderProfile?.vehicleModel ||
+                          r.riderProfile?.vehicleType ||
+                          "N/A"}
+                      </TableCell>
+                      <TableCell>
+                        <span className="font-medium text-foreground">
+                          Rs. {r.wallet?.balance ?? 0}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => setSelectedRider(r)}
+                        >
+                          <DollarSign className="h-4 w-4 mr-1" />
+                          Deduct Rs. 500
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <div className="flex items-center justify-between border-t border-border px-5 py-3.5">
+                <p className="text-xs text-muted-foreground">
+                  Page {data?.page ?? 1} of {data?.totalPages ?? 1} ·{" "}
+                  {data?.total ?? 0} riders
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page <= 1}
+                    onClick={() => setPage((p) => p - 1)}
+                  >
+                    <ChevronLeft className="h-4 w-4" /> Prev
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={page >= (data?.totalPages ?? 1)}
+                    onClick={() => setPage((p) => p + 1)}
+                  >
+                    Next <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      <BikeInstallmentDeductionDialog
+        open={!!selectedRider}
+        onOpenChange={(v) => !v && setSelectedRider(null)}
+        rider={selectedRider}
+        onConfirm={handleDeduct}
+        isSubmitting={deductMutation.isPending}
+      />
+    </div>
+  );
+}
+
 export default function RidersPage() {
   return (
     <Tabs defaultValue="riders">
@@ -1648,6 +1785,7 @@ export default function RidersPage() {
         <TabsTrigger value="riders">All Riders</TabsTrigger>
         <TabsTrigger value="verification">Verification Queue</TabsTrigger>
         <TabsTrigger value="sessions">Bonus Sessions</TabsTrigger>
+        <TabsTrigger value="installments">Bike Installments</TabsTrigger>
       </TabsList>
       <TabsContent value="riders">
         <RidersTab />
@@ -1657,6 +1795,9 @@ export default function RidersPage() {
       </TabsContent>
       <TabsContent value="sessions">
         <SessionsTab />
+      </TabsContent>
+      <TabsContent value="installments">
+        <BikeInstallmentsTab />
       </TabsContent>
     </Tabs>
   );

@@ -486,3 +486,18 @@ export async function adjustRiderWallet(id, { type, amount, reason }) {
   //   riders = riders.map((r) => (r._id === id ? rider : r));
   //   return delay({ balance: rider.wallet.balance, transaction: tx });
 }
+
+export const deductBikeInstallment = async (riderId) => {
+  try {
+   const { data } = await axiosClient.post("/riders/wallet/deduct-installment", { riderId });
+
+    console.log("API RESPONSE DATA:", data);
+    return data;
+  } catch (error) {
+    console.error(
+      "API CALL FAILED:",
+      error.response ? error.response.data : error.message,
+    );
+    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+  }
+};
