@@ -1,8 +1,5 @@
 import { axiosClient } from "./axiosClient";
 
-/**
- * GET /api/chat/conversations
- */
 export async function getConversations({
   type,
   search,
@@ -15,20 +12,13 @@ export async function getConversations({
   return data;
 }
 
-/**
- * GET /api/chat/contacts (New endpoint)
- * Fetches directory of all registered customers, riders, and restaurants
- */
 export async function getContacts(search = "") {
   const { data } = await axiosClient.get("/chat/contacts", {
     params: { search },
   });
-  return data; // Expected shape: { customers: [], riders: [], restaurants: [] }
+  return data; 
 }
 
-/**
- * GET /api/chat/conversations/:id/messages
- */
 export async function getMessages(conversationId) {
   if (!conversationId) return [];
   const { data } = await axiosClient.get(
@@ -37,10 +27,7 @@ export async function getMessages(conversationId) {
   return data.messages || data;
 }
 
-/**
- * POST /api/chat/conversations
- * Gets existing thread or creates a new one
- */
+
 export async function getOrCreateConversation({
   type,
   customerId,
@@ -62,9 +49,6 @@ export async function getOrCreateConversation({
   return data.conversation || data;
 }
 
-/**
- * POST /api/chat/conversations/:id/messages
- */
 export async function sendMessage(
   conversationId,
   { text, attachments = [], senderRole = "admin", senderId = "6a7b574e5cf4c5a6bba1a982"},
@@ -81,13 +65,10 @@ export async function sendMessage(
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
-/**
- * PATCH /api/chat/conversations/:id/read
- */
 export async function markConversationRead(conversationId, role = "admin") {
   const { data } = await axiosClient.patch(
     `/chat/conversations/${conversationId}/read`,

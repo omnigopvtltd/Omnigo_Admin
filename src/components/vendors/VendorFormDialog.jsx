@@ -474,7 +474,7 @@ const schema = z.object({
     z.number().min(0).max(100)
   ),
   status: z.enum(["pending", "approved", "blocked"]),
-  belongsTo: z.enum(["restaurant", "homeChef"]).default("restaurant"),
+  belongsTo: z.enum(["vendor", "homeChef"]).default("vendor"),
   // Formatted string input: "Pizza: BBQ, Pepperoni | Burgers: Zinger, Beef"
   categoriesRaw: z.string().optional(),
 });
@@ -514,7 +514,7 @@ function toFormValues(vendor) {
       deliveryFee: 0,
       commissionRate: 15,
       status: "pending",
-      belongsTo: "restaurant",
+      belongsTo: "vendor",
       categoriesRaw: "",
     };
   }
@@ -540,15 +540,15 @@ function toFormValues(vendor) {
     deliveryFee: vendor.deliveryFee ?? 0,
     commissionRate: vendor.commissionRate ?? 15,
     status: vendor.status ?? "pending",
-    belongsTo: vendor.belongsTo ?? (vendor.isHomeChef ? "homeChef" : "restaurant"),
+    belongsTo: vendor.belongsTo ?? (vendor.isHomeChef ? "homeChef" : "vendor"),
     categoriesRaw: formattedCategories,
   };
 }
 
-export function RestaurantFormDialog({
+export function VendorFormDialog({
   open,
   onOpenChange,
-  restaurant, // Can be a Restaurant or Home Chef object
+  vendor, // Can be a Vendor or Home Chef object
   onSubmit,
   isSubmitting,
 }) {
@@ -561,14 +561,14 @@ export function RestaurantFormDialog({
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: toFormValues(restaurant),
+    defaultValues: toFormValues(vendor),
   });
 
   const belongsToValue = watch("belongsTo");
 
   useEffect(() => {
-    reset(toFormValues(restaurant));
-  }, [restaurant, open, reset]);
+    reset(toFormValues(vendor));
+  }, [vendor, open, reset]);
 
   function submit(values) {
     // Parses string formatted as "Category: Sub1, Sub2 | Category2: Sub3"
@@ -621,7 +621,7 @@ export function RestaurantFormDialog({
       openingHours: {
         open: values.openTime,
         close: values.closeTime,
-        is24Hours: restaurant?.openingHours?.is24Hours ?? false,
+        is24Hours: vendor?.openingHours?.is24Hours ?? false,
       },
       deliveryTime: {
         min: values.deliveryTimeMin,
@@ -632,18 +632,18 @@ export function RestaurantFormDialog({
       commissionRate: values.commissionRate,
       status: values.status,
       belongsTo: values.belongsTo,
-      isOpen: restaurant?.isOpen ?? true,
+      isOpen: vendor?.isOpen ?? true,
     });
   }
 
-  const vendorLabel = belongsToValue === "homeChef" ? "Home Chef" : "Restaurant";
+  const vendorLabel = belongsToValue === "homeChef" ? "Home Chef" : "Vendor";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle>
-            {restaurant ? `Edit ${vendorLabel}` : `Add ${vendorLabel}`}
+            {vendor ? `Edit ${vendorLabel}` : `Add ${vendorLabel}`}
           </DialogTitle>
           <DialogDescription>
             Manage profile details, address, opening hours, commission rates, and menu categories.
@@ -666,7 +666,7 @@ export function RestaurantFormDialog({
                         <SelectValue placeholder="Select Type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="restaurant">Restaurant</SelectItem>
+                        <SelectItem value="vendor">Vendor</SelectItem>
                         <SelectItem value="homeChef">Home Chef</SelectItem>
                       </SelectContent>
                     </Select>
@@ -881,7 +881,7 @@ export function RestaurantFormDialog({
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting
                 ? "Saving…"
-                : restaurant
+                : vendor
                 ? `Save ${vendorLabel}`
                 : `Create ${vendorLabel}`}
             </Button>

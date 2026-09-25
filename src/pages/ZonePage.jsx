@@ -77,7 +77,7 @@ const ZonePage = () => {
           {/* <MapPin className="h-7 w-7 text-primary" />
           <h1 className="text-2xl font-bold tracking-tight">Zone Management</h1> */}
         </div>
-        <Button onClick={handleOpenAdd}>
+        <Button onClick={handleOpenAdd} className="bg-navy">
           <Plus className="mr-2 h-4 w-4" /> Add New Zone
         </Button>
       </div>
