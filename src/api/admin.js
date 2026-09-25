@@ -13,7 +13,7 @@ export async function searchGlobal(query) {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
@@ -28,7 +28,7 @@ export async function getNotifications() {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
@@ -43,7 +43,7 @@ export async function markAllNotificationsRead() {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
@@ -60,7 +60,7 @@ export async function getAdminProfile(id) {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
@@ -77,6 +77,6 @@ export async function updateAdminProfile(payload, id) {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }

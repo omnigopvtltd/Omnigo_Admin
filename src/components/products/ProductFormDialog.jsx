@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { useRestaurants } from "@/hooks/useRestaurants";
+import { useVendors } from "@/hooks/useVendors";
 
 const schema = z
   .object({
@@ -25,7 +25,7 @@ const schema = z
     image: z
       .union([z.string().url("Enter a valid image URL"), z.literal("")])
       .optional(),
-    restaurantId: z.string().min(1, "Select a restaurant"),
+    vendorId: z.string().min(1, "Select a vendor"),
     category: z.string().min(1, "Category is required"),
     price: z.coerce.number().positive("Price must be greater than 0"),
     discountPrice: z
@@ -64,7 +64,7 @@ function toFormValues(product) {
       name: "",
       description: "",
       image: "",
-      restaurantId: "",
+      vendorId: "",
       category: "",
       price: "",
       discountPrice: "",
@@ -79,7 +79,7 @@ function toFormValues(product) {
     name: product.name ?? "",
     description: product.description ?? "",
     image: product.images?.[0] ?? "",
-    restaurantId: product.restaurantId?._id ?? product.restaurantId ?? "",
+    vendorId: product.vendorId?._id ?? product.vendorId ?? "",
     category: product.category ?? "",
     price: product.price ?? "",
     discountPrice: product.discountPrice ?? "",
@@ -98,8 +98,8 @@ export function ProductFormDialog({
   onSubmit,
   isSubmitting,
 }) {
-  const { data: restaurantData } = useRestaurants({ limit: 100 });
-  const restaurants = restaurantData?.restaurants ?? [];
+  const { data: vendorData } = useVendors({ limit: 100 });
+  const vendors = vendorData?.vendors ?? [];
 
   const {
     register,
@@ -125,7 +125,7 @@ export function ProductFormDialog({
       name: values.name,
       description: values.description,
       images: values.image ? [values.image] : [],
-      restaurantId: values.restaurantId || "6a57323f8cf2d87bf78f3340",
+      vendorId: values.vendorId || "6a57323f8cf2d87bf78f3340",
       category: values.category,
       price: Number(values.price),
       discountPrice:
@@ -147,7 +147,7 @@ export function ProductFormDialog({
         <DialogHeader>
           <DialogTitle>{product ? "Edit Product" : "Add Product"}</DialogTitle>
           <DialogDescription>
-            Products must belong to a restaurant — pick one below.
+            Products must belong to a vendor — pick one below.
           </DialogDescription>
         </DialogHeader>
 
@@ -188,36 +188,36 @@ export function ProductFormDialog({
             </div>
 
             {/* <div>
-              <Label>Restaurant</Label>
-              <Select {...register("restaurantId")}>
-                <option value="">Select a restaurant…</option>
-                {restaurants.map((r) => (
+              <Label>Vendor</Label>
+              <Select {...register("vendorId")}>
+                <option value="">Select a vendor…</option>
+                {vendors.map((r) => (
                   <option key={r._id} value={r._id}>{r.name}</option>
                 ))}
               </Select>
-              {errors.restaurantId && <p className="mt-1 text-xs text-destructive">{errors.restaurantId.message}</p>}
+              {errors.vendorId && <p className="mt-1 text-xs text-destructive">{errors.vendorId.message}</p>}
             </div> */}
             <div>
-              <Label>Restaurant</Label>
+              <Label>Vendor</Label>
 
               {/* 👇 Capital 'Select' ko lowercase 'select' mein badla */}
               <select
-                {...register("restaurantId")}
+                {...register("vendorId")}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                <option value="">Select a restaurant…</option>
-                {/* 👇 Safely map tabhi chalega jab restaurants exist karega */}
-                {restaurants &&
-                  restaurants.map((r) => (
+                <option value="">Select a vendor…</option>
+                {/* 👇 Safely map tabhi chalega jab vendors exist karega */}
+                {vendors &&
+                  vendors.map((r) => (
                     <option key={r._id} value={r._id}>
                       {r.name}
                     </option>
                   ))}
               </select>
 
-              {errors.restaurantId && (
+              {errors.vendorId && (
                 <p className="mt-1 text-xs text-destructive">
-                  {errors.restaurantId.message}
+                  {errors.vendorId.message}
                 </p>
               )}
             </div>

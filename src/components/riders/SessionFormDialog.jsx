@@ -128,12 +128,12 @@ export function SessionFormDialog({ open, onOpenChange, session, onSubmit, isSub
 
             <div>
               <Label>Start Date</Label>
-              <Input type="date" {...register("startDate")} />
+              <Input type="datetime-local" {...register("startDate")} />
               {errors.startDate && <p className="mt-1 text-xs text-destructive">{errors.startDate.message}</p>}
             </div>
             <div>
               <Label>End Date</Label>
-              <Input type="date" {...register("endDate")} />
+              <Input type="datetime-local" {...register("endDate")} />
               {errors.endDate && <p className="mt-1 text-xs text-destructive">{errors.endDate.message}</p>}
             </div>
 

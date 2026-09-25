@@ -93,6 +93,7 @@ import {
   Receipt,
   ForkKnifeCrossed,
   LocationEdit,
+  File,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -100,8 +101,9 @@ const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/orders", label: "Orders", icon: ShoppingBag },
   { to: "/riders", label: "Riders", icon: Bike },
-  { to: "/restaurants", label: "Restaurants", icon: Store },
+  { to: "/vendors", label: "Vendors", icon: Store },
   { to: "/home-chefs", label: "Home Chefs", icon: UtensilsCrossed },
+  // { to: "/menu", label: "Menu", icon: File },
   { to: "/products", label: "Products", icon: Package },
   { to: "/categories", label: "Categories", icon: ForkKnifeCrossed },
   { to: "/customers", label: "Customers", icon: Users },

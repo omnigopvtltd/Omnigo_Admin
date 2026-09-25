@@ -18,7 +18,7 @@ import {
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { ProductFormDialog } from "@/components/products/ProductFormDialog";
 import { cn } from "@/lib/utils";
-import { useRestaurants } from "@/hooks/useRestaurants";
+import { useVendors } from "@/hooks/useVendors";
 import {
   useProducts, useCreateProduct, useUpdateProduct,
   useToggleAvailability, useDeleteProduct,
@@ -28,7 +28,7 @@ const CURRENCY = new Intl.NumberFormat("en-US", { style: "currency", currency: "
 
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
-  const [restaurantId, setRestaurantId] = useState("");
+  const [vendorId, setVendorId] = useState("");
   const [status, setStatus] = useState("all");
   const [page, setPage] = useState(1);
 
@@ -36,10 +36,10 @@ export default function ProductsPage() {
   const [editing, setEditing] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  const { data: restaurantData } = useRestaurants({ limit: 100 });
-  const restaurants = restaurantData?.restaurants ?? [];
+  const { data: vendorData } = usevendors({ limit: 100 });
+  const vendors = vendorData?.vendors ?? [];
 
-  const { data, isLoading, isFetching } = useProducts({ search, restaurantId, status, page, limit: 8 });
+  const { data, isLoading, isFetching } = useProducts({ search, vendorId, status, page, limit: 8 });
   const products = data?.products ?? [];
   console.log(data);
   
@@ -73,7 +73,7 @@ export default function ProductsPage() {
               {row.original.name}
             </p>
             <p className="truncate text-xs text-muted-foreground">
-              {row.original.restaurantId?.name ?? "—"}
+              {row.original.vendorId?.name ?? "—"}
             </p>
           </div>
         </div>
@@ -149,9 +149,9 @@ export default function ProductsPage() {
     <div className="space-y-5">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         {/* <div className="flex flex-wrap gap-2">
-          <Select value={restaurantId} onChange={(e) => { setRestaurantId(e.target.value); setPage(1); }} className="w-48">
-            <option value="">All Restaurants</option>
-            {restaurants.map((r) => <option key={r._id} value={r._id}>{r.name}</option>)}
+          <Select value={vendorId} onChange={(e) => { setVendorId(e.target.value); setPage(1); }} className="w-48">
+            <option value="">All Vendors</option>
+            {vendors.map((r) => <option key={r._id} value={r._id}>{r.name}</option>)}
           </Select>
           <Select value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }} className="w-36">
             <option value="all">All Status</option>

@@ -11,7 +11,7 @@ export async function getCategories() {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
@@ -26,7 +26,7 @@ export async function getCategoryById(id) {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 
@@ -88,7 +88,7 @@ export async function reorderCategories(orderedIds) {
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+    throw error; 
   }
 }
 

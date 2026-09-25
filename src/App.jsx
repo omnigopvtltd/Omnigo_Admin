@@ -3,8 +3,7 @@ import { AppLayout } from "@/components/layout/AppLayout";
 import DashboardPage from "@/pages/DashboardPage";
 import OrdersPage from "@/pages/OrdersPage";
 import RidersPage from "@/pages/RidersPage";
-import RestaurantsPage from "@/pages/RestaurantsPage";
-import HomeChefsPage from "@/pages/HomeChefsPage";
+// import HomeChefsPage from "@/pages/HomeChefsPage";
 import ProductsPage from "@/pages/ProductsPage";
 import CustomersPage from "@/pages/CustomersPage";
 import ChatPage from "@/pages/ChatPage";
@@ -16,6 +15,8 @@ import ProfilePage from "./pages/ProfilePage";
 import NotificationsPage from "./pages/NotificationsPage";
 import CategoryPage from "./pages/CategoryPage";
 import ZonePage from "./pages/ZonePage";
+import MenuPage from "./pages/MenuPage";
+import VendorPage from "@/pages/VendorPage";
 
 export default function App() {
   return (
@@ -24,8 +25,9 @@ export default function App() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/riders" element={<RidersPage />} />
-        <Route path="/restaurants" element={<RestaurantsPage />} />
-        <Route path="/home-chefs" element={<HomeChefsPage />} />
+        <Route path="/vendors" element={<VendorPage />} />
+        {/* <Route path="/home-chefs" element={<HomeChefsPage />} /> */}
+        {/* <Route path="/menu" element={<MenuPage />} /> */}
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/categories" element={<CategoryPage />} />
         <Route path="/customers" element={<CustomersPage />} />
