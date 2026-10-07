@@ -70,11 +70,11 @@ export async function getProductById(id) {
 }
 
 /** POST /api/products */
-export async function createProduct(payload) {
+export async function createProduct(formData) {
   // Real version: const { data } = await axiosClient.post("/products", payload); return data.product;
 
   try {
-    const { data } = await axiosClient.post("/products/create", payload);
+    const { data } = await axiosClient.post("/products/create", formData);
     
     console.log("API RESPONSE DATA:", data); // Check if data is coming
     return data;
@@ -99,11 +99,11 @@ export async function createProduct(payload) {
 }
 
 /** PUT /api/products/:id */
-export async function updateProduct(id, payload) {
-  // Real version: const { data } = await axiosClient.put(`/products/${id}`, payload); return data.product;
+export async function updateProduct(id, formData) {
+  // Real version: const { data } = await axiosClient.put(`/products/${id}`, formData); return data.product;
 
   try {
-    const { data } = await axiosClient.put(`/products/update/${id}`, payload);
+    const { data } = await axiosClient.put(`/products/update/${id}`, formData);
     
     console.log("API RESPONSE DATA:", data); // Check if data is coming
     return data;

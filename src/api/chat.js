@@ -16,7 +16,8 @@ export async function getContacts(search = "") {
   const { data } = await axiosClient.get("/chat/contacts", {
     params: { search },
   });
-  return data; 
+  // Safely return array or object wrapped data
+  return data.contacts || data.users || data || [];
 }
 
 export async function getMessages(conversationId) {
@@ -27,37 +28,71 @@ export async function getMessages(conversationId) {
   return data.messages || data;
 }
 
-
 export async function getOrCreateConversation({
   type,
-  customerId,
+  userId,
   riderId,
   adminId,
+  vendorId,
+  orderId,
   senderRole,
   text,
-  // restaurantId,
 }) {
-  const { data } = await axiosClient.post("/chat/conversations", {
-    type,
-    customerId,
-    riderId,
-    adminId,
-    senderRole,
-    text,
-    // restaurantId,
-  });
-  return data.conversation || data;
+  console.log(type,
+  userId,
+  riderId,
+  adminId,
+  vendorId,
+  orderId,
+  senderRole,
+  text)
+  try {
+    const body = {};
+  if (type) body.type = type;
+  if (userId) body.userId = userId;
+  if (riderId) body.riderId = riderId;
+  if (adminId) body.adminId = adminId;
+  if (vendorId) body.vendorId = vendorId;
+  if (orderId) body.orderId = orderId;
+  if (senderRole) body.senderRole = senderRole;
+  if (text) body.text = text;
+
+  const { data } = await axiosClient.post("/chat/conversations", body)
+    // const { data } = await axiosClient.post("/chat/conversations", {
+    //   type,
+    //   userId,
+    //   riderId,
+    //   adminId,
+    //   vendorId,
+    //   orderId,
+    //   senderRole,
+    //   text,
+    // });
+    console.log(data)
+    return data.conversation || data;
+  } catch (error) {
+    console.error("API CALL FAILED:", error.response ? error.response.data : error.message);
+
+    throw error;
+    
+  }
 }
 
 export async function sendMessage(
   conversationId,
-  { text, attachments = [], senderRole = "admin", senderId = "6a7b574e5cf4c5a6bba1a982"},
+  {
+    text,
+    attachments = [],
+    senderRole = "admin",
+    senderId,
+    receiverId,
+    receiverRole = "user",
+  },
 ) {
-  console.log(text, attachments, senderRole, senderId);
   try {
     const { data } = await axiosClient.post(
       `/chat/conversations/${conversationId}/messages`,
-      { text, attachments, senderRole, senderId },
+      { text, attachments, senderRole, senderId, receiverId, receiverRole },
     );
     return data.message || data;
   } catch (error) {
@@ -65,7 +100,7 @@ export async function sendMessage(
       "API CALL FAILED:",
       error.response ? error.response.data : error.message,
     );
-    throw error; 
+    throw error;
   }
 }
 

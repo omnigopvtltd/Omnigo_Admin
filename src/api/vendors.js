@@ -56,25 +56,25 @@ export async function getVendorMenuById(vendorId = id) {
 }
 
 /** POST /api/vendors */
-// export async function createVendor(payload) {
-//   try {
-//     const { data } = await axiosClient.post("/vendors/signup", payload);
-//     return data;
-//   } catch (error) {
-//     console.error(
-//       "API CALL FAILED:",
-//       error.response ? error.response.data : error.message,
-//     );
-//     throw error;
-//   }
-// }
+export async function createVendor(formData) {
+  try {
+    const { data } = await axiosClient.post("/vendors/signup", formData);
+    return data;
+  } catch (error) {
+    console.error(
+      "API CALL FAILED:",
+      error.response ? error.response.data : error.message,
+    );
+    throw error;
+  }
+}
 
 /** PUT /api/vednors/:id */
-export async function updateVendor(id, payload) {
+export async function updateVendor(id, formData) {
   try {
     const { data } = await axiosClient.put(
       `/vendors/vendor-profile/update/${id}`,
-      payload,
+      formData,
     );
     return data;
   } catch (error) {

@@ -12,7 +12,7 @@ console.log(import.meta.env.VITE_API_URL);
 
 axiosClient.interceptors.request.use((config) => {
   // const token = localStorage.getItem("auth_token");
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhN2I1NzRlNWNmNGM1YTZiYmExYTk4MiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MDI1MzQyOSwiZXhwIjoxNzkwODU4MjI5fQ.s3zOhI6oI49pxT087xncjhv2MNzWNfExFQzvOSAeFm0";
+  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhN2I1NzRlNWNmNGM1YTZiYmExYTk4MiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MDkzNjQxNiwiZXhwIjoxNzkxNTQxMjE2fQ.li9RZxlJIOlXkFihpOhyu72djTcegGkAxS7x3dXzAEQ";
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

@@ -102,7 +102,7 @@ const NAV_ITEMS = [
   { to: "/orders", label: "Orders", icon: ShoppingBag },
   { to: "/riders", label: "Riders", icon: Bike },
   { to: "/vendors", label: "Vendors", icon: Store },
-  { to: "/home-chefs", label: "Home Chefs", icon: UtensilsCrossed },
+  // { to: "/home-chefs", label: "Home Chefs", icon: UtensilsCrossed },
   // { to: "/menu", label: "Menu", icon: File },
   { to: "/products", label: "Products", icon: Package },
   { to: "/categories", label: "Categories", icon: ForkKnifeCrossed },

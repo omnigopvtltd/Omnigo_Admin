@@ -3,7 +3,7 @@ import {
   getVendors,
   getVendorById,
   getVendorMenuById,
-  // createVendor,
+  createVendor,
   updateVendor,
   updateVendorStatus,
   deleteVendor,
@@ -33,18 +33,18 @@ export function useVendorMenu(id) {
   });
 }
 
-// export function useCreateVendor() {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: createVendor,
-//     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["vendors"] }),
-//   });
-// }
+export function useCreateVendor() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: createVendor,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["vendors"] }),
+  });
+}
 
 export function useUpdateVendor() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, payload }) => updateVendor(id, payload),
+    mutationFn: ({ id, formData }) => updateVendor(id, formData),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["vendors"] }),
   });
 }
