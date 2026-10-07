@@ -7,8 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
-import { CouponFormDialog } from "@/components/promotions/CouponFormDialog";
-import { CampaignFormDialog } from "@/components/promotions/CampaignFormDialog";
+import { CouponFormDialog } from "@/components/promotions/CouponFormDialog.jsx";
+import { CampaignFormDialog } from "@/components/promotions/CampaignFormDialog.jsx";
 import { useCoupons, useCreateCoupon, useUpdateCoupon, useDeleteCoupon } from "@/hooks/useCoupons";
 import { useCampaigns, useCreateCampaign, useUpdateCampaign, useDeleteCampaign } from "@/hooks/useCampaigns";
 
