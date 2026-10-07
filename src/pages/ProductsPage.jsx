@@ -24,7 +24,11 @@ import {
   useToggleAvailability, useDeleteProduct,
 } from "@/hooks/useProducts";
 
-const CURRENCY = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+const CURRENCY = new Intl.NumberFormat("en-PK", {
+  style: "currency",
+  currency: "PKR",
+  currencyDisplay: "code"
+});
 
 export default function ProductsPage() {
   const [search, setSearch] = useState("");
@@ -36,7 +40,7 @@ export default function ProductsPage() {
   const [editing, setEditing] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  const { data: vendorData } = usevendors({ limit: 100 });
+  const { data: vendorData } = useVendors({ limit: 100 });
   const vendors = vendorData?.vendors ?? [];
 
   const { data, isLoading, isFetching } = useProducts({ search, vendorId, status, page, limit: 8 });
@@ -69,7 +73,7 @@ export default function ProductsPage() {
           />
           <div className="min-w-0">
             <p className="flex items-center gap-1.5 truncate text-sm font-medium text-foreground">
-              {row.original.isVeg && <Leaf className="h-3.5 w-3.5 shrink-0 text-success" />}
+              {row.original.isVeg && <Leaf className="h-3.5 w-3.5 shrink-0 text-success" title="Vegetarian" />}
               {row.original.name}
             </p>
             <p className="truncate text-xs text-muted-foreground">
@@ -137,11 +141,12 @@ export default function ProductsPage() {
 
   const table = useReactTable({ data: products, columns, getCoreRowModel: getCoreRowModel() });
 
-  function handleFormSubmit(payload) {
+  function handleFormSubmit(formData) {
+    console.log(formData);
     if (editing) {
-      updateMutation.mutate({ id: editing._id, payload }, { onSuccess: () => setFormOpen(false) });
+      updateMutation.mutate({ id: editing._id, payload: formData }, { onSuccess: () => setFormOpen(false) });
     } else {
-      createMutation.mutate(payload, { onSuccess: () => setFormOpen(false) });
+      createMutation.mutate(formData, { onSuccess: () => setFormOpen(false) });
     }
   }
 

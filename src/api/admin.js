@@ -21,7 +21,7 @@ export async function getNotifications() {
   try {
     const { data } = await axiosClient.get(`/admin/notifications`);
 
-    console.log("API RESPONSE DATA:", data);
+    // console.log("API RESPONSE DATA:", data);
     return data;
   } catch (error) {
     console.error(
