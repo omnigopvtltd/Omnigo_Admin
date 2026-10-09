@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { AppLayout } from "@/components/layout/AppLayout";
 import DashboardPage from "@/pages/DashboardPage";
 import OrdersPage from "@/pages/OrdersPage";
@@ -17,12 +17,19 @@ import CategoryPage from "./pages/CategoryPage";
 import ZonePage from "./pages/ZonePage";
 import MenuPage from "./pages/MenuPage";
 import VendorPage from "@/pages/VendorPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import LoginPage from "./pages/LoginPage";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
-        <Route path="/" element={<DashboardPage />} />
+      <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
         <Route path="/orders" element={<OrdersPage />} />
         <Route path="/riders" element={<RidersPage />} />
         <Route path="/vendors" element={<VendorPage />} />
@@ -39,6 +46,8 @@ export default function App() {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
+        {/* Default Redirect */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );

@@ -1,5 +1,17 @@
 import { axiosClient } from "./axiosClient";
 
+export async function adminLogin(formData) {
+  try {
+    const { data } = await axiosClient.post("/auth/login", formData);
+    console.log("API RESPONSE DATA:", data);
+    return data;
+  }
+  catch (error) {
+    console.error("API CALL FAILED:", error.response ? error.response.data : error.message);
+    throw error; // Tan-Query (useQuery) ko error batana zaroori hai
+  }
+}
+
 export async function searchGlobal(query) {
   try {
     const { data } = await axiosClient.get(
