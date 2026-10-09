@@ -9,7 +9,7 @@ import {
   deleteVendor,
 } from "@/api/vendors";
 
-export function useVendors(filters = {}) {
+export function useVendors(filters = {limit: 100, businessType, search: '', page: 1}) {
   return useQuery({
     queryKey: ["vendors", filters],
     queryFn: () => getVendors(filters),

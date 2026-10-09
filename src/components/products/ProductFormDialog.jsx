@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -184,13 +184,21 @@ export function ProductFormDialog({
   isSubmitting,
   currencySymbol = "Rs.",
 }) {
-  const { data: vendorData } = useVendors({ limit: 100 });
+  
+// vendor fetch by business type
+const [businessType, setBusinessType] = useState('grocery');
+
+// Pass businessType query in useVendors
+const { data: vendorData, isLoading, error } = useVendors({ 
+  limit: 100, 
+  businessType 
+});
   const { data: categoryData } = useCategories({ limit: 100 });
 
   const vendors = vendorData?.vendors ?? [];
   const categories = categoryData ?? [];
   console.log(categories, categoryData);
-  
+
 
   const {
     register,
@@ -229,6 +237,7 @@ export function ProductFormDialog({
 
     // 1. Image Payload
     if (values.imageFile && values.imageFile[0]) {
+      console.log("Appending image file:", values.imageFile, values.imageFile[0]);
       formData.append("images", values.imageFile[0]);
     } else if (values.imageUrl) {
       formData.append("images", values.imageUrl);
@@ -296,6 +305,7 @@ console.log("FormData Entries:", Array.from(formData.entries())); // Debugging F
               <Label className="mb-2 block font-medium">Belongs To (Module)</Label>
               <select
                 {...register("belongsTo")}
+                setBusinessType={setBusinessType}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {BELONGS_TO_OPTIONS.map((b) => (
