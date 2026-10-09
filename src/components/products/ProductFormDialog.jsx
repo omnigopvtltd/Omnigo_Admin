@@ -191,7 +191,7 @@ const [businessType, setBusinessType] = useState('grocery');
 // Pass businessType query in useVendors
 const { data: vendorData, isLoading, error } = useVendors({ 
   limit: 100, 
-  businessType 
+  // businessType 
 });
   const { data: categoryData } = useCategories({ limit: 100 });
 

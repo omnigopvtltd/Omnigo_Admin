@@ -19,12 +19,12 @@ export async function getVendors({
   search,
   page = 1,
   limit = 12,
-  businessType 
+  // businessType 
 } = {}) {
   // Real version:
   try {
     const { data } = await axiosClient.get("/vendors", {
-      params: { status, search, page, limit, businessType },
+      params: { status, search, page, limit },
     });
     return data;
   } catch (error) {
