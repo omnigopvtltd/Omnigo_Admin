@@ -23,14 +23,14 @@ function attachRestaurant(product) {
   };
 }
 
-/** GET /api/products?restaurantId=&category=&status=&search=&page=&limit= */
-export async function getProducts({ restaurantId, category, status, search, page = 1, limit = 12 } = {}) {
+/** GET /api/products?vendorId=&category=&status=&isAvailable=&search=&page=&limit= */
+export async function getProducts({ vendorId, category, status, isAvailable, search, page = 1, limit = 12 } = {}) {
   // Real version:
-  // const { data } = await axiosClient.get("/products", { params: { restaurantId, category, status, search, page, limit } });
+  // const { data } = await axiosClient.get("/products", { params: { vendorId, category, status, isAvailable, search, page, limit } });
   // return data;
 
   try {
-    const { data } = await axiosClient.get("/products", { params: { restaurantId, category, status, search, page, limit }});
+    const { data } = await axiosClient.get("/products", { params: { vendorId, category, status, isAvailable, search, page, limit }});
     
     console.log("API RESPONSE DATA:", data); // Check if data is coming
     return data;
@@ -120,9 +120,10 @@ export async function updateProduct(id, formData) {
 
 /** PATCH /api/products/:id/availability */
 export async function toggleAvailability(id, isAvailable) {
-  // Real version: const { data } = await axiosClient.patch(`/products/${id}/availability`, { isAvailable }); return data.product;
-  products = products.map((p) => (p._id === id ? { ...p, isAvailable } : p));
-  return delay(products.find((p) => p._id === id));
+  const { data } = await axiosClient.patch(`/products/${id}/availability`, { isAvailable }); return data.product;
+  
+  // products = products.map((p) => (p._id === id ? { ...p, isAvailable } : p));
+  // return delay(products.find((p) => p._id === id));
 }
 
 /** DELETE /api/products/:id */
