@@ -48,8 +48,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4">
-      <div className="max-w-md w-full bg-gray-800 rounded-xl shadow-2xl p-8 border border-gray-700">
+    <div className="min-h-screen flex items-center justify-center bg-navy text-white px-4">
+      <div className="max-w-md w-full bg-white/10 rounded-xl shadow-2xl p-8 border border-white/10">
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-extrabold tracking-tight text-white">
@@ -102,7 +102,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg shadow-lg hover:shadow-blue-500/20 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
+            className="w-full py-3.5 px-4 bg-white hover:bg-white/40 text-navy font-semibold rounded-lg shadow-lg hover:shadow-blue-500/20 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
           >
             {isPending ? (
               <div className="flex items-center space-x-2">

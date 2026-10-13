@@ -23,8 +23,8 @@ import LoginPage from "./pages/LoginPage";
 export default function App() {
   return (
     <Routes>
-      <Route element={<AppLayout />}>
       <Route path="/login" element={<LoginPage />} />
+      <Route element={<AppLayout />}>
         <Route path="/" element={
             <ProtectedRoute>
               <DashboardPage />
