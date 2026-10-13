@@ -279,7 +279,7 @@ const { data: vendorData, isLoading, error } = useVendors({
     formData.append("tags", JSON.stringify(formattedTags));
     formData.append("variations", JSON.stringify(values.variations || []));
     formData.append("addOns", JSON.stringify(values.addOns || []));
-console.log("FormData Entries:", Array.from(formData.entries())); // Debugging FormData contents
+console.log("FormData Entries:", Array.from(formData.entries()), formData); // Debugging FormData contents
     onSubmit(formData);
   }
 
